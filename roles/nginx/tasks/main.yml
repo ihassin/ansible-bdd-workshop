@@ -1,0 +1,34 @@
+---
+  - name: Update apt cache if needed
+    apt: update_cache=yes cache_valid_time=3600 autoremove=yes
+
+  - name: Install needed packages for the app
+    apt: pkg={{item}} state=installed autoremove=yes
+    with_items:
+      - software-properties-common
+      - mysql-client
+      - build-essential
+      - nginx
+
+  - name: Own app's top dir
+    file: path=/home/{{user}}/{{appname}} mode=0755 recurse=true
+
+#  - name: Remove nginx default conf
+#    file: path=/etc/nginx/sites-enabled/default state=absent
+#
+#  - name: Copy nginx conf file to available
+#    template: src=nginx.conf dest=/etc/nginx/sites-available/{{appname}}.conf owner={{user}}
+#
+#  - name: Symlink it to enabled
+#    file: src=/etc/nginx/sites-available/{{appname}}.conf dest=/etc/nginx/sites-enabled/00-{{appname}}.conf state=link
+#
+#  - name: Copy index.html
+#    template: src=index.html dest=/home/{{user}}/ owner={{user}}
+#
+#  - name: User group operations
+#    file: path=/home/{{user}}/ group=www-data recurse=true
+#    become: true
+#
+#  - name: Add www-data to deploy group
+#    command: usermod -a -G www-data {{user}}
+#    become: true
