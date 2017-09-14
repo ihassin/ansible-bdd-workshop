@@ -16,7 +16,7 @@ When(/^I get access to it$/) do
 end
 
 Then(/^I expect it to have nginx running$/) do
-  expect(Net::HTTP.get(@host, '/index.html').length).to be > 0
+  expect(Net::HTTP.get(@host, '/index.html')).to match /nginx, configured by Ansible/
 end
 
 def run_remote(command, verbose = false)

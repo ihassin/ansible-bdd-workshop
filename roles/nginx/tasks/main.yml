@@ -10,25 +10,11 @@
       - build-essential
       - nginx
 
-  - name: Own app's top dir
-    file: path=/home/{{user}}/{{appname}} mode=0755 recurse=true
+  - name: copy nginx config file
+    copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
 
-#  - name: Remove nginx default conf
-#    file: path=/etc/nginx/sites-enabled/default state=absent
-#
-#  - name: Copy nginx conf file to available
-#    template: src=nginx.conf dest=/etc/nginx/sites-available/{{appname}}.conf owner={{user}}
-#
-#  - name: Symlink it to enabled
-#    file: src=/etc/nginx/sites-available/{{appname}}.conf dest=/etc/nginx/sites-enabled/00-{{appname}}.conf state=link
-#
-#  - name: Copy index.html
-#    template: src=index.html dest=/home/{{user}}/ owner={{user}}
-#
-#  - name: User group operations
-#    file: path=/home/{{user}}/ group=www-data recurse=true
-#    become: true
-#
-#  - name: Add www-data to deploy group
-#    command: usermod -a -G www-data {{user}}
-#    become: true
+  - name: enable configuration
+    file: src=/etc/nginx/sites-available/default dest=/etc/nginx/sites-enabled/default state=link
+
+  - name: copy index.html
+    template: src=templates/index.html dest=/usr/share/nginx/html/index.html mode=0644
