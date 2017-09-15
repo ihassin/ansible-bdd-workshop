@@ -31,3 +31,12 @@ bundle
 vagrant plugin install ansible #Install the Ansible plugin for Vagrant
 ```
 
+# Check that everything is installed:
+
+```bash
+vagrant --version # Vagrant 1.9.3
+ruby --version # ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-darwin16]
+gem --version # 2.6.12
+ansible --version # ansible 2.3.1.0
+bundle --version # Bundler version 1.15.3
+```
